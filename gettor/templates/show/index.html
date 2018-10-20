@@ -1,0 +1,29 @@
+{% extends 'base.html' %}
+
+{% block header %}
+  <h1>{% block title %}Shows{% endblock %}</h1>
+  {% if g.user %}
+    <a class="action" href="{{ url_for('show.add') }}">Add New Show</a>
+  {% endif %}
+{% endblock %}
+
+{% block content %}
+  {% for show in shows %}
+    <article class="show">
+      <header>
+          <div><p style="float: left; margin: 10px;"><a href="{{ show.link_details }}"> <img src=" {{ show.link_pic }}" alt="Show details" height="80px" width="80px" border="1px"></a></p></div>
+        <div>
+          <h1>{{ show.name }}</h1>
+          <div class="about"><a href="{{show.show_details.get_episode_link()}}" target="_blank">season {{ show.season }} episode {{ show.episode }}</a>
+            ({{show.show_details.get_episodes_left()}} episodes available to download)</div>
+        </div>
+          <a class="action" href="{{ url_for('show.update', id=show.id) }}">Edit</a>
+          <a class="action" href="{{ url_for('show.download', id=show.id) }}">Download</a>
+
+      </header>
+    </article>
+    {% if not loop.last %}
+      <hr>
+    {% endif %}
+  {% endfor %}
+{% endblock %}

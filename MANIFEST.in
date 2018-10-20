@@ -1,0 +1,5 @@
+graft gettor/static
+graft gettor/templates
+graft gettor/forms
+graft gettor/models
+global-exclude *.pyc

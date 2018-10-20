@@ -1,0 +1,43 @@
+{% extends 'base.html' %}
+
+{% block header %}
+<h1>{% block title %}Edit "{{ form_update.name.data }}"{% endblock %}</h1>
+{% endblock %}
+
+{% block content %}
+
+<form action="" method="post" novalidate>
+    {{ form_update.hidden_tag() }}
+
+    {{ form_update.name.label }}<br>
+    {{ form_update.name(size=32) }}<br>
+    {% for error in form_update.name.errors %}
+    <span style="color: red;">[{{ error }}]</span>
+    {% endfor %}
+
+    {{ form_update.additional_search.label }}<br>
+    {{ form_update.additional_search(size=32) }}<br>
+
+    {{ form_update.season.label }}<br>
+    {{ form_update.season }}<br>
+    {% for error in form_update.season.errors %}
+    <span style="color: red;">[{{ error }}]</span>
+    {% endfor %}
+
+    {{ form_update.episode.label }}<br>
+    {{ form_update.episode }}<br>
+    {% for error in form_update.episode.errors %}
+    <span style="color: red;">[{{ error }}]</span>
+    {% endfor %}
+
+    {{ form_update.submit() }}
+</form>
+
+
+<form action="" method="post" novalidate onSubmit="return confirm('Are you sure you wish to delete?');">
+    {{ form_del.hidden_tag() }}
+    {{ form_del.delete() }}
+</form>
+
+
+{% endblock %}

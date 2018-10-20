@@ -1,0 +1,36 @@
+{% extends 'base.html' %}
+
+{% block header %}
+<h1>{% block title %}New Post{% endblock %}</h1>
+{% endblock %}
+
+{% block content %}
+
+
+<form action="" method="post" novalidate>
+    {{ form.hidden_tag() }}
+
+    {{ form.name.label }}<br>
+    {{ form.name(size=32) }}<br>
+    {% for error in form.name.errors %}
+    <span style="color: red;">[{{ error }}]</span>
+    {% endfor %}
+
+    {{ form.additional_search.label }}<br>
+    {{ form.additional_search(size=32) }}<br>
+
+    {{ form.season.label }}<br>
+    {{ form.season }}<br>
+    {% for error in form.season.errors %}
+    <span style="color: red;">[{{ error }}]</span>
+    {% endfor %}
+
+    {{ form.episode.label }}<br>
+    {{ form.episode }}<br>
+    {% for error in form.episode.errors %}
+    <span style="color: red;">[{{ error }}]</span>
+    {% endfor %}
+
+    {{ form.submit() }}
+</form>
+{% endblock %}
