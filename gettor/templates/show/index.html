@@ -11,14 +11,17 @@
   {% for show in shows %}
     <article class="show">
       <header>
-          <div><p style="float: left; margin: 10px;"><a href="{{ show.link_details }}"> <img src=" {{ show.link_pic }}" alt="Show details" height="80px" width="80px" border="1px"></a></p></div>
+          <div><p style="float: left; margin: 10px;"><a href="{{ show.link_details }}"> <img src=" {{ show.link_pic }}" alt="Show details" height="120px" width="120px" border="1px"></a></p></div>
         <div>
           <h1>{{ show.name }}</h1>
-          <div class="about"><a href="{{show.show_details.get_episode_link()}}" target="_blank">season {{ show.season }} episode {{ show.episode }}</a>
-            ({{show.show_details.get_episodes_left()}} episodes available to download)</div>
+          <div class="about"><a href="{{url_for('show.download', id=show.id)}}" target="_blank">season {{ show.season }} episode {{ show.episode }}</a>
+            ({{show.show_details.get_episodes_left()}} episodes available to download) </div>
         </div>
-          <a class="action" href="{{ url_for('show.update', id=show.id) }}">Edit</a>
-          <a class="action" href="{{ url_for('show.download', id=show.id) }}">Download</a>
+          <div>
+              <a href="{{show.show_details.get_episode_link()}}" target="_blank">Episode info</a>
+              <a class="action" href="{{ url_for('show.update', id=show.id) }}">Edit</a>
+              <a class="action" href="{{ url_for('show.download', id=show.id) }}">Download</a>
+          </div>
 
       </header>
     </article>

@@ -82,7 +82,7 @@ def add():
     return render_template('show/add_show.html', title='Add Show', form=form)
 
 
-def get_show(id, check_author=True):
+def get_show(id, check_author=True) -> Show:
     curr_show = db.session.query(Show).filter_by(id=id).first()
     if curr_show is None:
         abort(404, "Show id {0} doesn't exist.".format(id))

@@ -146,6 +146,20 @@ class ShowDetails:
             # TODO else try from other fields
         return self.ep_left
 
+    def get_next_episode(self):
+        cur_ep = self.show.episode
+        cur_se = self.show.season
+        if not self.details or not self.details['_embedded']:
+            return cur_se, cur_ep + 1
+        found_current = False
+        for episode in self.details['_embedded']['episodes']:
+            if episode['season'] == cur_se and episode['number'] == cur_ep:
+                found_current = True
+                continue
+            if found_current or episode['season'] > cur_se:
+                return episode['season'], episode['number']
+        return cur_se, cur_ep + 1
+
     def get_episode_link(self):
         if not self.details or not self.details['_embedded']:
             self.ep_details_link = None

@@ -81,7 +81,12 @@ class Show(db.Model):
         return details['id']
 
     def step(self):
-        self.episode += 1
+        if self.show_details:
+            se, ep = self.show_details.get_next_episode()
+            self.season = se
+            self.episode = ep
+        else:
+            self.episode += 1
         # TODO check if season is over so step to next season
 
 
