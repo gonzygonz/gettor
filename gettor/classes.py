@@ -58,7 +58,7 @@ class Downloader():
             try:
                 response = requests.get(url)
             except (requests.ConnectionError, requests.exceptions.Timeout)as e:
-                self.curr_url =  "", str(e), "", -1
+                self.curr_url = "", str(e), "", -1
                 return
             if response.status_code == 200:
                 tree = lxml.html.fromstring(response.content)

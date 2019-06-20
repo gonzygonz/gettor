@@ -22,7 +22,7 @@
         var parser = new DOMParser;
         var dom = parser.parseFromString(orig, 'text/html');
         var decodedString = dom.body.textContent;
-        window.open(decodedString, 'magnetframe');
+        window.open(decodedString, '_blank');
         </script>
         {% endif %}
 
