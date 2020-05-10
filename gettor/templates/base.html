@@ -1,6 +1,14 @@
 <!doctype html>
 <title>{% block title %}{% endblock %} - Get Torrent</title>
 <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+
+<script type=text/javascript src="{{
+  url_for('static', filename='jquery-3.5.1.js') }}"></script>
+
+<script type=text/javascript>
+  $SCRIPT_ROOT = {{ request.script_root|tojson|safe }};
+</script>
+
 <nav>
     <h1>Flaskr</h1>
     <ul>

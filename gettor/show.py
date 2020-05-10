@@ -1,5 +1,5 @@
 from flask import (
-    Blueprint, flash, g, redirect, render_template, request, url_for
+    Blueprint, flash, g, redirect, render_template, request, url_for, jsonify
 )
 import webbrowser
 from werkzeug.exceptions import abort
@@ -148,7 +148,7 @@ def download(id):
         if formnextep.validate_on_submit():
             if formnextep.download.data:
                 flash('episode downloaded')
-                #webbrowser.open_new_tab(dnl.curr_url[0])
+                # webbrowser.open_new_tab(dnl.curr_url[0])
                 print("dnl22:" + dnl.curr_url[0])
                 url_to_do = dnl.curr_url[0]
                 show.step()
@@ -188,6 +188,14 @@ def download(id):
 
     return render_template('show/download.html', title='Download Show', show=show, formnextep=formnextep,
                            curr_url=dnl.curr_url, url_to_do=url_to_do)
+
+
+@bp.route('/<int:id>/mark_downloaded')
+@login_required
+def mark_downloaded(id):
+    # a = request.form.get("a", 0, type=float)
+    # b = request.form.get("b", 0, type=float)
+    return jsonify(result="test works %d" % id)
 
 
 def delete_id(id):

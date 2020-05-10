@@ -1,7 +1,8 @@
 {% extends 'base.html' %}
 
 {% block header %}
-<h1>{% block title %}Download {{ show.name }} season {{ show.season }} episode {{ show.episode }} ({{ curr_url[3] }} torrents){% endblock %}</h1>
+<h1>{% block title %}Download {{ show.name }} season {{ show.season }} episode {{ show.episode }} ({{ curr_url[3] }}
+    torrents){% endblock %}</h1>
 {% endblock %}
 
 
@@ -9,47 +10,68 @@
 
 <article class="show">
     <body>
-        <div><p style="float: left; margin: 10px;"><a href="{{ show.link_details }}"> <img src=" {{ show.link_pic }}"
-                                                                                           alt="Show details"
-                                                                                           height="150px" width="150"
-                                                                                           border="1px"></a></p></div>
-        <p id="demo"></p>
 
-        {% if url_to_do %}
-        <iframe style="display:none" name="magnetframe"></iframe>
-        <script>
+    <div><p style="float: left; margin: 10px;"><a href="{{ show.link_details }}"> <img src=" {{ show.link_pic }}"
+                                                                                       alt="Show details"
+                                                                                       height="150px" width="150"
+                                                                                       border="1px"></a></p></div>
+    <p id="demo"></p>
+
+    {% if url_to_do %}
+    <iframe style="display:none" name="magnetframe"></iframe>
+    <script>
         var orig = "{{url_to_do}}"
         var parser = new DOMParser;
         var dom = parser.parseFromString(orig, 'text/html');
         var decodedString = dom.body.textContent;
         window.open(decodedString, '_blank');
-        </script>
-        {% endif %}
 
-        <form action="" method="post" novalidate>
-            {{ formnextep.hidden_tag() }}
-            <div>
-            <div class="about">{{ curr_url[1] }}
+
+    </script>
+    {% endif %}
+
+    <form action="" method="post" novalidate>
+        {{ formnextep.hidden_tag() }}
+
+
+        <label > torrent name: </label>
+        <div class="tor-name">
+            <input id="prev_url" name="prev_url" type="submit" value="&lt;" />
+            <label class="about">{{ curr_url[1] }}
                 {% if curr_url[2] %}
                 ( {{ curr_url[2] }} seeds)
                 {% endif %}
-                </div>
+            </label>
 
+
+            <input id="next_url" name="next_url" type="submit" value="&gt;" />
         </div>
-            <input id="prev_url" name="prev_url" type="submit" value="&lt;previous" style="float: left">
-            <input id="next_url" name="next_url" type="submit" value="next&gt;">
-            {{ formnextep.download() }}
-            {{ formnextep.next() }}
-            <a class="action" href="{{ url_for('show.update', id=show.id) }}">Edit Your Show Details</a><br>
-            <a class="action" href="{{ show.show_details.get_episode_link() }}" target="_blank">Details on this Episode</a>
+        <a class="action" id="downlaod_magnet" href="{{ curr_url[0] }}">Download</a>
+        {{ formnextep.download() }}
+        {{ formnextep.next() }}
+        <a class="action" href="{{ url_for('show.update', id=show.id) }}">Edit Your Show Details</a><br>
+        <a class="action" href="{{ show.show_details.get_episode_link() }}" target="_blank">Details on this Episode</a>
+        <span id=result>?</span>
 
-        </form>
+    </form>
 
     </body>
 </article>
 
+<script type=text/javascript>
+
+$(document).ready(function(){
+        $("a#downlaod_magnet").on("click", function(event){
+            event.preventDefault();
+            $.getJSON($SCRIPT_ROOT + '/{{show.id}}/mark_downloaded', { }, function(data) {
+                $("#result").text(data.result);
+                window.location = "{{curr_url[0]}}" ;
+                 });
+        });
+    });
 
 
 
+</script>
 
 {% endblock %}

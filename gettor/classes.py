@@ -7,15 +7,39 @@ import datetime
 
 # DEFAULT_SEARCH_URL = "https://thepiratebay.org/search/"
 # DEFAULT_SEARCH_EPILOG = "/0/99/0"
-DEFAULT_SEARCH_URL = "https://thepiratebay3.org/index.php?q="
-DEFAULT_SEARCH_EPILOG = "&page=0&orderby=99"
-DEFAULT_SEARCH_FORMAT = "{0} {1} s{2:02d}e{3:02d}"
-# https://thepiratebay3.org/index.php?q=big+bang&page=0&orderby=99
 
-DEFAULT_XPATH_NAME = "//div[@class='detName']/a"
-DEFAULT_XPATH_DNL_LNK = "//a[starts-with(@href, 'm')]"
-DEFAULT_XPATH_SEED = '//table[@id="searchResult"]//td[3]'
+#thepiratebay3
+# https://thepiratebay3.org/index.php?q=big+bang&page=0&orderby=99
+# DEFAULT_SEARCH_URL = "https://thepiratebay3.org/index.php?q="
+# DEFAULT_SEARCH_EPILOG = "&page=0&orderby=99"
+# DEFAULT_SEARCH_FORMAT = "{0} {1} s{2:02d}e{3:02d}"
+#
+# DEFAULT_XPATH_NAME = "//div[@class='detName']/a"
+# DEFAULT_XPATH_DNL_LNK = "//a[starts-with(@href, 'm')]"
+# DEFAULT_XPATH_SEED = '//table[@id="searchResult"]//td[3]'
 # DEFAULT_XPATH_SEED = "//tr[@class='alt']/td[3]"
+
+
+#piratebayproxy
+# https://pirateproxy.name/search.php?q=big+bang&all=on&search=Pirate+Search&page=0&orderby=
+# DEFAULT_SEARCH_URL = "https://pirateproxy.name/search.php?q="
+# DEFAULT_SEARCH_EPILOG = "&all=on&search=Pirate+Search&page=0&orderby="
+# DEFAULT_SEARCH_FORMAT = "{0} {1} s{2:02d}e{3:02d}"
+#
+# DEFAULT_XPATH_NAME = "//div[@class='item-name']/a"
+# DEFAULT_XPATH_DNL_LNK = "//a[starts-with(@href, 'm')]"
+# DEFAULT_XPATH_SEED = "//div[@class='item-seed']"
+
+# piratebaylibe
+# https://piratebaylive.com/search?q=big+bang&cat%5B%5D=&search=Pirate+Search
+DEFAULT_SEARCH_URL = "https://piratebaylive.com/search?q="
+DEFAULT_SEARCH_EPILOG = "&cat%5B%5D=&search=Pirate+Search"
+DEFAULT_SEARCH_FORMAT = "{0} {1} s{2:02d}e{3:02d}"
+
+DEFAULT_XPATH_NAME = "//li[@class=\'list-entry\']/span[contains(@class, \'item-name\')]/a"
+DEFAULT_XPATH_DNL_LNK = "//a[@class=\'js-magnet-link\']"
+# DEFAULT_XPATH_DNL_LNK = "//a[starts-with(@href, 'm')]"
+DEFAULT_XPATH_SEED = "//li[@class=\'list-entry\']/span[contains(@class, \'item-seed\')]"
 
 empty_url = "", "EMPTY", "", -99
 
@@ -38,7 +62,7 @@ class Downloader():
         self.tries = 0
         self.curr_url = None
 
-    def construct_search_str(self):
+    def _construct_search_str(self):
         show_str = DEFAULT_SEARCH_FORMAT.format(self.show.name,
                                                 self.show.additional_search,
                                                 self.show.season,
@@ -54,7 +78,7 @@ class Downloader():
         if self.tries < 0:
             self.tries = 0
         if self.html is None:
-            url = self.construct_search_str()
+            url = self._construct_search_str()
             try:
                 response = requests.get(url)
             except (requests.ConnectionError, requests.exceptions.Timeout)as e:
